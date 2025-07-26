@@ -53,7 +53,7 @@ export default function GalleryPage({
     const adminCheck = {
       isAdminFlag: isAdmin,
       userMetadataRole: user?.user_metadata?.role === 'admin',
-      email: user?.email?.toLowerCase() === 'testuser21@example.com',
+      email: user?.email?.toLowerCase() === 'jamescroanin@gmail.com',
       appMetadataRole: (user as any)?.app_metadata?.role === 'admin'
     };
     

@@ -30,8 +30,8 @@ const defaultContactMethods: ContactMethod[] = [
       </svg>
     ),
     title: 'Email',
-    value: 'testuser21@example.com',
-    action: 'mailto:testuser21@example.com'
+    value: 'jamescroanin@gmail.com',
+    action: 'mailto:jamescroanin@gmail.com'
   },
   {
     icon: (

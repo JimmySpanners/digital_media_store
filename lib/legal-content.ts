@@ -88,7 +88,7 @@ export const termsOfServiceContent = {
     },
     {
       title: "12. Contact Information",
-      content: ["If you have any questions about these Terms, please contact us at contact@example.com."],
+      content: ["If you have any questions about these Terms, please contact us at jamescroanin@gmail.com."],
     },
   ],
 }
@@ -202,7 +202,7 @@ export const privacyPolicyContent = {
       content: [
         "If you have questions or concerns about this Privacy Policy or our privacy practices, please contact us at:",
         "",
-        "Email: privacy@example.com",
+        "Email: jamescroanin@gmail.com",
         "Address: [Physical Address]",
       ],
     },
@@ -308,7 +308,7 @@ export const cookiePolicyContent = {
       content: [
         "If you have any questions about our use of cookies, please contact us at:",
         "",
-        "Email: privacy@example.com",
+        "Email: jamescroanin@gmail.com",
         "Address: [Physical Address]",
       ],
     },

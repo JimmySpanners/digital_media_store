@@ -67,7 +67,7 @@ export function SettingsManager() {
     defaultValues: {
       siteName: "admin's Portfolio",
       siteDescription: "A showcase of my creative work and premium content for subscribers.",
-      contactEmail: "testuser21@example.com",
+      contactEmail: "jamescroanin@gmail.com",
       footerText: "© 2023 admin's Portfolio. All rights reserved.",
     },
   })

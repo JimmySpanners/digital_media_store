@@ -5,14 +5,14 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'testuser21@example.com',
+    user: 'jamescroanin@gmail.com',
     pass: 'wxbf jlgy shra tlao',
   },
 });
 
 transporter.sendMail({
-  from: '"Test" <testuser21@example.com>',
-  to: 'testuser21@example.com',
+  from: '"Test" <jamescroanin@gmail.com>',
+  to: 'jamescroanin@gmail.com',
   subject: 'Test Email',
   text: 'This is a test email.',
 }, (err, info) => {

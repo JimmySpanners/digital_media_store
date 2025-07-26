@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS public.app_settings (
 
 -- Insert default admin email setting
 INSERT INTO public.app_settings (key, value)
-VALUES ('admin_email', '"testuser21@example.com"');
+VALUES ('admin_email', '"jamescroanin@gmail.com"');
 
 -- Contact submissions table (for contact form data)
 CREATE TABLE IF NOT EXISTS public.contact_submissions (
@@ -874,7 +874,7 @@ ON CONFLICT (page_slug, component_type) DO NOTHING;
 
 -- Insert default page content for custom pages
 INSERT INTO public.page_content (page_slug, section_type, content, sort_order, is_published) VALUES
-('contact', 'contact', '{"profileImage": "/placeholder.svg?height=1000&width=800", "contactMethods": [], "featureSection": {"id": "contact-feature", "type": "feature", "title": "Get in Touch", "description": "We are always excited to connect! Whether you have questions, want to collaborate, or just want to say hi, feel free to reach out.", "features": [{"icon": "star", "title": "Email", "description": "Reach us at testuser21@example.com"}, {"icon": "heart", "title": "Phone", "description": "+1 (555) 123-4567"}, {"icon": "sparkles", "title": "Location", "description": "London, United Kingdom"}], "layout": "grid", "enableTitleSpeech": false, "enableDescriptionSpeech": false, "enableFeatureSpeech": false, "enableSpeech": false, "visible": true}}', 0, true)
+('contact', 'contact', '{"profileImage": "/placeholder.svg?height=1000&width=800", "contactMethods": [], "featureSection": {"id": "contact-feature", "type": "feature", "title": "Get in Touch", "description": "We are always excited to connect! Whether you have questions, want to collaborate, or just want to say hi, feel free to reach out.", "features": [{"icon": "star", "title": "Email", "description": "Reach us at jamescroanin@gmail.com"}, {"icon": "heart", "title": "Phone", "description": "+1 (555) 123-4567"}, {"icon": "sparkles", "title": "Location", "description": "London, United Kingdom"}], "layout": "grid", "enableTitleSpeech": false, "enableDescriptionSpeech": false, "enableFeatureSpeech": false, "enableSpeech": false, "visible": true}}', 0, true)
 ON CONFLICT (page_slug, section_type) DO NOTHING;
 
 -- =====================================================
