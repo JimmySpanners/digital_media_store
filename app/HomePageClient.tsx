@@ -1122,7 +1122,7 @@ export default function HomePageClient() {
 
   console.log('Home page rendering with data:', { heroImage, aboutMedia, freeContentImage })
 
-  const [visibleCount, setVisibleCount] = useState(30);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   return (
     <main className="min-h-screen" style={getPageStyles()}>

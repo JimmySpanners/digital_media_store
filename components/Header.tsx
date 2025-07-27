@@ -156,7 +156,7 @@ export function Header() {
                   className="transition-colors hover:text-foreground/80 text-foreground/60">
                 Products
              </Link>
-            <Link href="#contact-us"
+            <Link href="/#contact-us"
                   className="transition-colors hover:text-foreground/80 text-foreground/60">
                 Contact Us
              </Link>
