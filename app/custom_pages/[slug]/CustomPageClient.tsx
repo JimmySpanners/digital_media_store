@@ -1134,6 +1134,8 @@ export default function CustomPageClient() {
                 title: (section as any).title || 'Gallery',
                 description: (section as any).description || '',
                 images: (section as any).images || [],
+                url: '', // Default empty string for url
+                alt: '', // Default empty string for alt
                 layout: (section as any).layout || 'grid',
                 enableTitleSpeech: (section as any).enableTitleSpeech || false,
                 enableDescriptionSpeech: (section as any).enableDescriptionSpeech || false,
