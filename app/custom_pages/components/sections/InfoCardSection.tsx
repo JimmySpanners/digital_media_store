@@ -88,12 +88,30 @@ export const InfoCardSection: React.FC<Props> = ({ section, isEditMode, onSectio
 
   const currentLayout = LAYOUTS[section.layout || 'full-height'];
   const sectionWidth = section.width || '100%';
+  const horizontalAlign = section.horizontalAlign || 'center';
+  
   const sectionClasses = [
     'relative w-full flex',
     currentLayout.contentAlignment,
     currentLayout.sectionPadding,
-    'justify-center'
+    {
+      'justify-start': horizontalAlign === 'left',
+      'justify-center': horizontalAlign === 'center',
+      'justify-end': horizontalAlign === 'right'
+    }
   ].join(' ');
+  
+  const gridJustifyClass = {
+    'left': 'justify-start',
+    'center': 'justify-center',
+    'right': 'justify-end'
+  }[horizontalAlign] || 'justify-center';
+  
+  const gridItemsAlignClass = {
+    'left': 'items-start',
+    'center': 'items-center',
+    'right': 'items-end'
+  }[horizontalAlign] || 'items-center';
 
   // Helper to detect if backgroundUrl is a video
   const isVideoBackground = section.backgroundUrl && /\.(mp4|webm|ogg)$/i.test(section.backgroundUrl);
@@ -152,7 +170,7 @@ export const InfoCardSection: React.FC<Props> = ({ section, isEditMode, onSectio
         >
           {section.mainTitle && (
             <h2
-              className="text-3xl md:text-4xl font-bold mb-2 text-center pointer-events-auto"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-center pointer-events-auto"
               style={textStyleToCSS(section.mainTitleTextStyle)}
             >
               {section.mainTitle}
@@ -160,7 +178,7 @@ export const InfoCardSection: React.FC<Props> = ({ section, isEditMode, onSectio
           )}
           {section.mainDescription && (
             <p
-              className="text-lg md:text-xl text-center pointer-events-auto"
+              className="text-base sm:text-lg md:text-xl text-center pointer-events-auto"
               style={textStyleToCSS(section.mainDescriptionTextStyle)}
             >
               {section.mainDescription}
@@ -168,19 +186,31 @@ export const InfoCardSection: React.FC<Props> = ({ section, isEditMode, onSectio
           )}
         </div>
       )}
-      <div 
-        className={`relative z-10 grid gap-6 w-full ${sectionWidth === '100vw' ? 'w-screen max-w-none' : 'max-w-screen-xl mx-auto'} ${currentLayout.type === 'tight-wrap' ? 'py-12' : ''}`} 
-        style={{ 
-          gridTemplateColumns: `repeat(${Math.min(section.numCards, section.cards.length || 1)}, minmax(0, 1fr))`,
-          minHeight: currentLayout.type === 'tight-wrap' ? 'auto' : 'auto'
-        }}
-      >
-        {section.cards.map((card, idx) => (
-          <motion.div
-            key={card.id}
-            className="bg-white/10 backdrop-blur-xl p-4 rounded-xl shadow-lg text-white flex flex-col transition-all duration-200"
-            whileHover={{ y: -4, scale: 1.02 }}
+      <div className={`relative z-10 w-full ${sectionWidth === '100vw' ? 'w-screen max-w-none' : ''} ${currentLayout.type === 'tight-wrap' ? 'py-6 md:py-12' : ''}`}>
+        <div className={`${sectionWidth === '100vw' ? 'max-w-[2000px]' : 'max-w-screen-xl'} mx-auto px-4 sm:px-6`}>
+          <div 
+            className={`grid gap-4 md:gap-6 w-full ${
+              section.numCards === 1 ? 'grid-cols-1' : 
+              section.numCards === 2 ? 'grid-cols-1 md:grid-cols-2' : 
+              'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+            } ${
+              section.horizontalAlign === 'center' ? 'justify-items-center' :
+              section.horizontalAlign === 'right' ? 'justify-items-end' : 'justify-items-start'
+            }`}
           >
+            {section.cards.map((card, idx) => (
+              <motion.div
+                key={card.id}
+                className={`bg-white/10 backdrop-blur-xl p-4 rounded-xl shadow-lg text-white flex flex-col transition-all duration-200 h-full ${
+                  section.horizontalAlign === 'center' ? 'mx-auto' : 
+                  section.horizontalAlign === 'right' ? 'ml-auto' : 'mr-auto'
+                }`}
+                whileHover={{ y: -4, scale: 1.02 }}
+                style={{
+                  width: section.numCards === 1 ? '100%' : '100%',
+                  maxWidth: section.numCards === 1 ? '800px' : '100%'
+                }}
+              >
             {isEditMode && (
               <Button 
                 size="sm" 
@@ -268,22 +298,44 @@ export const InfoCardSection: React.FC<Props> = ({ section, isEditMode, onSectio
                 )}
               </>
             )}
-          </motion.div>
-        ))}
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
-
+      
       {isEditMode && (
         <>
           {/* Add Card/Background Buttons remain top left */}
-          <div className="absolute top-4 left-4 z-30 flex gap-2">
-            <Button onClick={addCard} size="sm">Add Card</Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setShowMediaLibrary(true)}
-            >
-              Background
-            </Button>
+          <div className="absolute top-4 left-4 z-30 flex flex-wrap gap-2">
+            <div className="flex gap-2">
+              <Button onClick={addCard} size="sm">Add Card</Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowMediaLibrary(true)}
+              >
+                Background
+              </Button>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 p-1 rounded-md">
+              <span className="text-xs text-white/80 px-2">Align:</span>
+              {(['left', 'center', 'right'] as const).map((align) => (
+                <Button
+                  key={align}
+                  variant={section.horizontalAlign === align ? 'default' : 'ghost'}
+                  size="sm"
+                  className="h-8 w-8 p-0 flex items-center justify-center"
+                  onClick={() => onSectionChange({ ...section, horizontalAlign: align })}
+                >
+                  <span className={`icon-${align}`}>
+                    {align === 'left' && '◧'}
+                    {align === 'center' && '◨'}
+                    {align === 'right' && '◨'}
+                  </span>
+                </Button>
+              ))}
+            </div>
             {showMediaLibrary && (
               <MediaLibrary
                 isDialog

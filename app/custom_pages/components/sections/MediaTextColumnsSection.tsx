@@ -221,18 +221,22 @@ export function MediaTextColumnsSection({ section, isEditMode, onSectionChange, 
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-      {section.mediaPosition === 'left' ? (
-        <>
-          {mediaContent}
-          {textContent}
-        </>
-      ) : (
-        <>
-          {textContent}
-          {mediaContent}
-        </>
-      )}
+    <div className="w-full px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {section.mediaPosition === 'left' ? (
+            <>
+              <div className="w-full">{mediaContent}</div>
+              <div className="w-full">{textContent}</div>
+            </>
+          ) : (
+            <>
+              <div className="w-full">{textContent}</div>
+              <div className="w-full">{mediaContent}</div>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
-} 
+}

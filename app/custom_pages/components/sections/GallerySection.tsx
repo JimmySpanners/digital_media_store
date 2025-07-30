@@ -27,6 +27,14 @@ export function GallerySection({ section, isEditMode, onSectionChange, speakText
     onSectionChange({ ...section, layout });
   };
 
+  const handleBackgroundSelect = (url: string, type: 'image' | 'video' = 'image') => {
+    onSectionChange({ ...section, backgroundImage: url });
+  };
+
+  const handleAlignmentChange = (align: 'left' | 'center' | 'right') => {
+    onSectionChange({ ...section, horizontalAlign: align });
+  };
+
   const handleToggleTitleSpeech = (enableTitleSpeech: boolean) => {
     onSectionChange({ ...section, enableTitleSpeech });
   };
@@ -198,34 +206,29 @@ export function GallerySection({ section, isEditMode, onSectionChange, speakText
     switch (section.layout) {
       case 'grid':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {section.images.map((image, index) => (
-              <div key={index} className="relative aspect-square">
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  fill
-                  className="object-cover rounded-lg"
-                />
-                {section.enableImageSpeech && (
-                  <button
-                    onMouseEnter={() => speakText(image.alt)}
-                    className="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-1 hover:bg-opacity-75"
-                  >
-                    <Volume2Icon className="h-4 w-4" />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        );
-
-      case 'masonry':
-        return (
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
-            {section.images.map((image, index) => (
-              <div key={index} className="relative mb-4 break-inside-avoid">
-                <div className="relative aspect-square">
+          <div className="w-full max-w-[2000px] mx-auto px-4 sm:px-6">
+            <div 
+              className={`grid gap-4 w-full ${
+                section.images.length === 1 ? 'grid-cols-1' : 
+                section.images.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 
+                'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+              } ${
+                section.horizontalAlign === 'center' ? 'justify-items-center' :
+                section.horizontalAlign === 'right' ? 'justify-items-end' : 'justify-items-start'
+              }`}
+            >
+              {section.images.map((image, index) => (
+                <div 
+                  key={index}
+                  className={`relative aspect-square ${
+                    section.horizontalAlign === 'center' ? 'mx-auto' : 
+                    section.horizontalAlign === 'right' ? 'ml-auto' : 'mr-auto'
+                  }`}
+                  style={{
+                    width: section.images.length === 1 ? '100%' : '100%',
+                    maxWidth: section.images.length === 1 ? '800px' : '100%'
+                  }}
+                >
                   <Image
                     src={image.url}
                     alt={image.alt}
@@ -241,8 +244,8 @@ export function GallerySection({ section, isEditMode, onSectionChange, speakText
                     </button>
                   )}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         );
 
@@ -283,14 +286,32 @@ export function GallerySection({ section, isEditMode, onSectionChange, speakText
     <div className="space-y-4">
       {section.title && (
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold" style={section.titleTextStyle as React.CSSProperties || {}}>{section.title}</h2>
-          {section.enableTitleSpeech && (
-            <button
-              onMouseEnter={() => speakText(section.title)}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <Volume2Icon className="h-6 w-6" />
-            </button>
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold" style={section.titleTextStyle as React.CSSProperties || {}}>{section.title}</h2>
+            {section.enableTitleSpeech && (
+              <button
+                onMouseEnter={() => speakText(section.title)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <Volume2Icon className="h-6 w-6" />
+              </button>
+            )}
+          </div>
+          {isEditMode && (
+            <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-md ml-4">
+              <span className="text-xs text-gray-500 px-2">Align:</span>
+              {(['left', 'center', 'right'] as const).map((align) => (
+                <button
+                  key={align}
+                  className={`p-1 rounded ${section.horizontalAlign === align ? 'bg-white shadow' : 'hover:bg-gray-200'} w-8 h-8 flex items-center justify-center`}
+                  onClick={() => handleAlignmentChange(align)}
+                >
+                  {align === 'left' && '◧'}
+                  {align === 'center' && '◨'}
+                  {align === 'right' && '◨'}
+                </button>
+              ))}
+            </div>
           )}
         </div>
       )}

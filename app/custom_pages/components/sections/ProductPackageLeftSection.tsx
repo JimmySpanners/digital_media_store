@@ -203,93 +203,96 @@ export function ProductPackageLeftSection({ section, isEditMode, onSectionChange
 
   // View mode
   return (
-    <div className="px-16">
-      <div
-        style={{
-          paddingLeft: `${section.horizontalPadding ?? 0}rem`,
-          paddingRight: `${section.horizontalPadding ?? 0}rem`,
-          paddingTop: `${section.verticalPadding ?? 0}rem`,
-          paddingBottom: `${section.verticalPadding ?? 0}rem`,
-        }}
-      >
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
-          {/* Media Side: Video first if present, then image */}
-          <div className="flex-1 w-full h-full rounded-2xl overflow-hidden shadow-xl">
-            {section.videoUrl ? (
-              <div onClick={() => setLightboxOpen(true)} className="cursor-pointer">
-                <video
-                  src={section.videoUrl}
-                  controls
-                  muted
-                  loop
-                  playsInline
-                  poster={section.imageSrc || undefined}
-                  className="w-full h-full object-cover mb-2"
+    <div className="w-full px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto w-full">
+        <div 
+          className="w-full"
+          style={{
+            paddingLeft: `${section.horizontalPadding ?? 0}rem`,
+            paddingRight: `${section.horizontalPadding ?? 0}rem`,
+            paddingTop: `${section.verticalPadding ?? 0}rem`,
+            paddingBottom: `${section.verticalPadding ?? 0}rem`,
+          }}
+        >
+          <div className="flex flex-col xl:flex-row gap-8 lg:gap-12 items-center">
+            {/* Media Side: Video first if present, then image */}
+            <div className="w-full xl:w-1/2 h-auto rounded-2xl overflow-hidden shadow-xl">
+              {section.videoUrl ? (
+                <div onClick={() => setLightboxOpen(true)} className="cursor-pointer">
+                  <video
+                    src={section.videoUrl}
+                    controls
+                    muted
+                    loop
+                    playsInline
+                    poster={section.imageSrc || undefined}
+                    className="w-full h-full object-cover mb-2"
+                  />
+                </div>
+              ) : section.imageSrc ? (
+                <img
+                  src={section.imageSrc}
+                  alt={section.imageAlt}
+                  className="w-full h-full object-cover cursor-pointer"
+                  onClick={() => setLightboxOpen(true)}
                 />
-              </div>
-            ) : section.imageSrc ? (
-              <img
-                src={section.imageSrc}
-                alt={section.imageAlt}
-                className="w-full h-full object-cover cursor-pointer"
-                onClick={() => setLightboxOpen(true)}
-              />
-            ) : null}
-          </div>
-          {/* Content Side */}
-          <div className="flex-1 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${section.color} flex items-center justify-center`}>
-                {/* No icon in editable version */}
-              </div>
-              {section.badge && (
-                <Badge variant={section.badge === "Most Popular" ? "default" : "secondary"} className="text-xs">
-                  {section.badge}
-                </Badge>
-              )}
+              ) : null}
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">{section.name}</h2>
-            <h3 className="text-xl text-blue-600 font-semibold mb-4">{section.subtitle}</h3>
-            <p className="text-gray-600 mb-6">{section.description}</p>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Key Features:</h4>
-                <ul className="space-y-2">
-                  {section.features?.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700 text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+            {/* Content Side */}
+            <div className="w-full xl:w-1/2 space-y-4 sm:space-y-6">
+              <div className="flex items-center gap-3">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${section.color} flex items-center justify-center`}>
+                  {/* No icon in editable version */}
+                </div>
+                {section.badge && (
+                  <Badge variant={section.badge === "Most Popular" ? "default" : "secondary"} className="text-xs">
+                    {section.badge}
+                  </Badge>
+                )}
               </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Perfect For:</h4>
-                <ul className="space-y-2">
-                  {section.perfectFor?.map((use, index) => (
-                    <li key={index} className="flex items-center">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 inline-block" />
-                      <span className="text-gray-700">{use}</span>
-                    </li>
-                  ))}
-                </ul>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">{section.name}</h2>
+              <h3 className="text-lg sm:text-xl text-blue-600 font-semibold mb-3 sm:mb-4">{section.subtitle}</h3>
+              <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">{section.description}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">Key Features:</h4>
+                  <ul className="space-y-2">
+                    {section.features?.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700 text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-3">Perfect For:</h4>
+                  <ul className="space-y-2">
+                    {section.perfectFor?.map((use, index) => (
+                      <li key={index} className="flex items-center">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 inline-block" />
+                        <span className="text-gray-700">{use}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <a
-                href={section.learnMoreUrl || '#'}
-                className="inline-block"
-              >
-                <Button size="lg" className={`bg-gradient-to-r ${section.color} hover:opacity-90 relative overflow-hidden group`}>
-                  <span className="relative z-10 flex items-center">
-                    {section.learnMoreText || 'Learn More'}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </span>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
+                <a
+                  href={section.learnMoreUrl || '#'}
+                  className="inline-block"
+                >
+                  <Button size="lg" className={`bg-gradient-to-r ${section.color} hover:opacity-90 relative overflow-hidden group`}>
+                    <span className="relative z-10 flex items-center">
+                      {section.learnMoreText || 'Learn More'}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </span>
+                  </Button>
+                </a>
+                <Button variant="outline" size="lg" className="hover:bg-gray-50 bg-transparent w-full sm:w-auto" onClick={() => setLightboxOpen(true)}>
+                  View Demo
                 </Button>
-              </a>
-              <Button variant="outline" size="lg" className="hover:bg-gray-50 bg-transparent" onClick={() => setLightboxOpen(true)}>
-                View Demo
-              </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -304,4 +307,4 @@ export function ProductPackageLeftSection({ section, isEditMode, onSectionChange
       )}
     </div>
   );
-} 
+}

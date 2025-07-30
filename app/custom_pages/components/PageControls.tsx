@@ -61,7 +61,7 @@ import {
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
-interface PageProperties {
+export interface PageProperties {
   // Appearance
   backgroundColor: string;
   backgroundOpacity: number;

@@ -68,6 +68,10 @@ export const FeatureCardGridSection: React.FC<Props> = ({ section, isEditMode, o
     onSectionChange({ ...section, numCards: num, cards: newCards });
   };
 
+  const handleAlignmentChange = (align: 'left' | 'center' | 'right') => {
+    onSectionChange({ ...section, horizontalAlign: align });
+  };
+
   return (
     <div className="space-y-6">
       {isEditMode && (
@@ -77,23 +81,56 @@ export const FeatureCardGridSection: React.FC<Props> = ({ section, isEditMode, o
         </div>
       )}
       {isEditMode && (
-        <div className="flex flex-wrap gap-4 mb-4 items-center">
-          <label className="block text-sm font-medium text-gray-700">Cards per row:</label>
-          <select
-            value={section.numCards}
-            onChange={e => handleNumCardsChange(Number(e.target.value))}
-            className="border rounded px-2 py-1"
-          >
-            {[2, 3, 4].map(n => (
-              <option key={n} value={n}>{n}</option>
+        <div className="space-y-4 mb-4">
+          <div className="flex flex-wrap gap-4 items-center">
+            <label className="block text-sm font-medium text-gray-700">Cards per row:</label>
+            <select
+              value={section.numCards}
+              onChange={e => handleNumCardsChange(Number(e.target.value))}
+              className="border rounded px-2 py-1"
+            >
+              {[2, 3, 4].map(n => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+            <Button onClick={handleAddCard} type="button">Add Card</Button>
+          </div>
+          <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-md w-fit">
+            <span className="text-xs text-gray-500 px-2">Alignment:</span>
+            {(['left', 'center', 'right'] as const).map((align) => (
+              <button
+                key={align}
+                className={`p-1 rounded ${section.horizontalAlign === align ? 'bg-white shadow' : 'hover:bg-gray-200'} w-8 h-8 flex items-center justify-center`}
+                onClick={() => handleAlignmentChange(align)}
+              >
+                {align === 'left' && '◧'}
+                {align === 'center' && '◨'}
+                {align === 'right' && '◨'}
+              </button>
             ))}
-          </select>
-          <Button onClick={handleAddCard} type="button">Add Card</Button>
+          </div>
         </div>
       )}
-      <div className={`grid gap-8`} style={{ gridTemplateColumns: `repeat(${section.numCards}, minmax(0, 1fr))` }}>
+      <div className="w-full max-w-[2000px] mx-auto px-4 sm:px-6">
+        <div 
+          className={`grid gap-6 md:gap-8 w-full ${
+            section.numCards === 1 ? 'grid-cols-1' : 
+            section.numCards === 2 ? 'grid-cols-1 md:grid-cols-2' : 
+            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+          }`}
+      >
         {section.cards.map((card, idx) => (
-          <div key={card.id} className="relative bg-white rounded-lg shadow p-6 flex flex-col">
+          <div 
+            key={card.id} 
+            className={`relative bg-white rounded-lg shadow p-6 flex flex-col ${
+              section.horizontalAlign === 'center' ? 'mx-auto' : 
+              section.horizontalAlign === 'right' ? 'ml-auto' : 'mr-auto'
+            }`}
+            style={{
+              width: section.numCards === 1 ? '100%' : '100%',
+              maxWidth: section.numCards === 1 ? '800px' : '100%'
+            }}
+          >
             {isEditMode && (
               <Button size="sm" variant="destructive" className="absolute top-2 right-2" onClick={() => handleRemoveCard(idx)}>Remove</Button>
             )}
@@ -237,6 +274,7 @@ export const FeatureCardGridSection: React.FC<Props> = ({ section, isEditMode, o
           </div>
         ))}
       </div>
+      </div>
       {/* Media Lightbox */}
       <MediaLightbox
         open={lightboxIdx !== null && !!section.cards[lightboxIdx]?.mediaUrl}
@@ -246,4 +284,4 @@ export const FeatureCardGridSection: React.FC<Props> = ({ section, isEditMode, o
       />
     </div>
   );
-}; 
+};

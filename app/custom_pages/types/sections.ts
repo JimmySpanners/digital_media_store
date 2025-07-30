@@ -27,11 +27,14 @@ export type SectionType =
   | 'product-package-right'
   | 'footer';
 
+export type HorizontalAlignment = 'left' | 'center' | 'right';
+
 export interface BaseSection {
   id: string;
   type: SectionType;
   visible: boolean;
   enableSpeech: boolean;
+  horizontalAlign?: HorizontalAlignment;
 }
 
 export interface HeroSection extends BaseSection {
@@ -208,6 +211,9 @@ export interface GallerySection extends BaseSection {
   title: string;
   description: string;
   images: { url: string; alt: string }[];
+  url: string;
+  alt: string;
+  backgroundImage?: string;
   layout: 'grid' | 'masonry' | 'carousel';
   enableTitleSpeech: boolean;
   enableDescriptionSpeech: boolean;

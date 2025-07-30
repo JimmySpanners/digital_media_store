@@ -41,7 +41,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { SliderSectionType } from "@/app/custom_pages/types/sections"
 import supabase from '@/lib/supabase/client'
 import { Section, InfoCard } from "@/app/custom_pages/types/sections"
-import { PageControls } from "@/app/custom_pages/components/PageControls"
+import { PageControls, PageProperties } from "@/app/custom_pages/components/PageControls"
 import { MediaTextSection as MediaTextSectionType } from "@/app/custom_pages/types/sections"
 import { FeatureSection as FeatureSectionType } from "@/app/custom_pages/types/sections"
 import MediaLibrary from '@/components/media/MediaLibrary'
@@ -430,10 +430,19 @@ export default function HomePageClient() {
     }
   };
 
-  const handlePagePropertiesChange = (newProperties: any) => {
-    setPageProperties(newProperties)
-    setIsDirty(true)
-  }
+  const handlePagePropertiesChange = (properties: Partial<PageProperties>) => {
+    setPageProperties(prev => {
+      // If showMoreEnabled is being turned off, reset visibleCount to show all sections
+      if (prev.showMoreEnabled && properties.showMoreEnabled === false) {
+        setVisibleCount(1000); // A high number to ensure all sections are shown
+      }
+      return {
+        ...prev,
+        ...properties
+      };
+    });
+    setIsDirty(true);
+  };
 
   // Generate styles from page properties
   const getPageStyles = () => {
@@ -1122,7 +1131,7 @@ export default function HomePageClient() {
 
   console.log('Home page rendering with data:', { heroImage, aboutMedia, freeContentImage })
 
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [visibleCount, setVisibleCount] = useState(30);
 
   return (
     <main className="min-h-screen" style={getPageStyles()}>
